@@ -4,15 +4,29 @@
 <div class="container">
     <div class="row">
         <div class="col-3 p-5">
-            <img src="https://scontent.fbeg4-1.fna.fbcdn.net/v/t39.30808-6/241760913_1297294454037200_6437093625288764925_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=tBCCMq_SUzoAX8qIWwz&_nc_ht=scontent.fbeg4-1.fna&oh=42f205935857d930fd4956187232b452&oe=6164CCDD" class="rounded-circle" style="width: 200px">
+            <img src="/storage/{{$user->profile->image}}" class="rounded-circle" style="width: 200px">
         </div>
         <div class="col-9 pt-5">
             <div class="d-flex justify-content-between align-items-baseline">
-                <h1>{{$user->username}}</h1>
-                <a href="#">Add New Post</a>
+
+                <div class="d-flex align-items-center pb-3">
+                    <div class="h4">{{$user->username}}</div>
+                    <follow-button user-id="{{$user->id}}"></follow-button>
+
+                </div>
+
+                @can('update', $user->profile)
+                    <a href="/p/create">Add New Post</a>
+                @endcan
+
             </div>
+
+            @can('update', $user->profile)
+                <a href="/profile/{{$user->id}}/edit">Edit Profile</a>
+            @endcan
+
             <div class="d-flex">
-                <div class="pr-3"><strong>150</strong> posts</div>
+                <div class="pr-3"><strong>{{$user->posts->count()}}</strong> posts</div>
                 <div class="pr-3"><strong>23k</strong> followers</div>
                 <div class="pr-3"><strong>212</strong> following</div>
             </div>
@@ -22,15 +36,15 @@
         </div>
     </div>
     <div class="row pt-4">
-        <div class="col-4">
-            <img src="https://scontent.fbeg4-1.fna.fbcdn.net/v/t39.30808-6/241760913_1297294454037200_6437093625288764925_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=tBCCMq_SUzoAX8qIWwz&_nc_ht=scontent.fbeg4-1.fna&oh=42f205935857d930fd4956187232b452&oe=6164CCDD" class="w-100">
+        @foreach($user->posts as $post)
+
+        <div class="col-4 pb-4">
+            <a href="/p/{{$post->id}}">
+                <img src="/storage/{{$post->image}}" class="w-100">
+            </a>
         </div>
-        <div class="col-4">
-            <img src="https://scontent.fbeg4-1.fna.fbcdn.net/v/t39.30808-6/241760913_1297294454037200_6437093625288764925_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=tBCCMq_SUzoAX8qIWwz&_nc_ht=scontent.fbeg4-1.fna&oh=42f205935857d930fd4956187232b452&oe=6164CCDD" class="w-100">
-        </div>
-        <div class="col-4">
-            <img src="https://scontent.fbeg4-1.fna.fbcdn.net/v/t39.30808-6/241760913_1297294454037200_6437093625288764925_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=tBCCMq_SUzoAX8qIWwz&_nc_ht=scontent.fbeg4-1.fna&oh=42f205935857d930fd4956187232b452&oe=6164CCDD" class="w-100">
-        </div>
+        @endforeach
+
     </div>
 
 </div>
